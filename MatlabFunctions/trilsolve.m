@@ -1,9 +1,10 @@
 %%
-% Resolve a linear system in upper triangular form
+%   Resolve a linear system in upper triangular form
+%   Forward substituion
 
 function x = trilsolve(A, b)
     if(istril(A) == false)
-        error("A is not an upper triangular matrix");
+        error("A is not a lower triangular matrix");
     end
 
     n = length(A);

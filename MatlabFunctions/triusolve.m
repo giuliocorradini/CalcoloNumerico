@@ -1,5 +1,6 @@
 %%
 %   Solves a linear system in upper triangular form
+%   Backwards substituion
 
 function x = triusolve(A, b)
     if (istriu(A) == false)
