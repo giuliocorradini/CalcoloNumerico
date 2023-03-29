@@ -1,7 +1,7 @@
 %%
 % Implements the LDL Gauss factorisation for symmetrical matrices.
 %
-% To generate a symmetric matrix: A = rand(5); A = triu(A) + tril(triu(A)', 1)
+% To generate a symmetric matrix: A = rand(5); A = tril(A, -1) + tril(A)'
 
 function [L, D] = my_ldl(A)
     if(issymmetric(A) == false)
@@ -9,20 +9,20 @@ function [L, D] = my_ldl(A)
     end
 
     n = length(A);
-    p = zeros(1, n - 1);
+    p = zeros(n);
 
     L = eye(n);
-    D = zeros(n, n);
+    D = zeros(n, 1);
 
     for j = 1 : n
-        dia = diag(D);
-        p = L(j, 1) * dia(1:j-1)';
+        p(j, 1 : j-1) = L(j, 1:j-1) .* D(1:j-1)';
 
-        D(j, j) = A(j, j) - L(j, 1 : j-1) * p(1, 1:j-1)';
+        D(j) = A(j, j) - L(j, 1 : j-1) * p(j, 1:j-1)';
 
         for i = j+1 : n
-            L(i, j) = (A(i, j) - L(i, 1:j-1) * p(1, 1:j-1)') / D(j, j);
+            L(i, j) = (A(i, j) - L(i, 1:j-1) * p(j, 1:j-1)') / D(j);
         end
     end
 
+    D = diag(D);
 end
